@@ -1,0 +1,23 @@
+.nav-link {
+    text-decoration: none;
+    
+}
+
+.nav-link:hover {
+    text-decoration: underline;
+    text-decoration-color: #dcedff71;
+    text-decoration-thickness: 3px;
+    text-underline-offset: 2px;
+    text-underline-position: left;
+}
+
+div.nav-element {
+    margin: auto 1vw;
+    color: #DCEDFF;
+}
+
+
+
+header.navigation {
+    background-color: #7F7B82;
+}

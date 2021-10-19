@@ -1,0 +1,20 @@
+.form {
+    background-color: #9ad5caff;
+    margin-top: 2%;
+    border: 10px solid /*rgba(23, 33, 33, 0.178)*/ rgba(23, 33, 33, 0.466);
+    border-radius: 20px;
+}
+
+.css-vqmohf-MuiButtonBase-root-MuiRadio-root.Mui-checked {
+    color: #172121ff;
+}
+
+.css-u4tvz2-MuiFormLabel-root.Mui-focused {
+    color: #172121ff;
+}
+
+.form-content {
+    padding: 5% 0;
+    margin:  auto;
+    width: max-content;
+}
