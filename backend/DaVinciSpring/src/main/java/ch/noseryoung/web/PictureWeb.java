@@ -1,2 +1,4 @@
-package ch.noseryoung.web;public class PictureWeb {
+package ch.noseryoung.web;
+
+public class PictureWeb {
 }

@@ -8,12 +8,18 @@ import "./css/Navigation.css";
 export default function Navbar() {
   const { currentPath } = useContext(NavContext);
 
-  const underlineCurrentSite = (linkPath : string) => {
-    return linkPath === currentPath ? {textDecoration: "underline", textDecorationThickness: "3px", textUnderlineOffset: "2px"} : {}
-  }
+  const underlineCurrentSite = (linkPath: string) => {
+    return linkPath === currentPath
+      ? {
+          textDecoration: "underline",
+          textDecorationThickness: "3px",
+          textUnderlineOffset: "2px",
+        }
+      : {};
+  };
 
   return (
-    <Box  sx={{flexGrow: 1}}>
+    <Box sx={{ flexGrow: 1 }}>
       <AppBar className="navigation" position="static">
         <Toolbar variant="regular">
           <IconButton
@@ -25,12 +31,24 @@ export default function Navbar() {
             <MenuIcon />
           </IconButton>
           <Link className="nav-link" to="/">
-            <Typography className="nav-element" style={underlineCurrentSite("/")} variant="h6" color="inherit" component="div">
-              Create
+            <Typography
+              className="nav-element"
+              style={underlineCurrentSite("/")}
+              variant="h6"
+              color="inherit"
+              component="div"
+            >
+              Home
             </Typography>
           </Link>
           <Link className="nav-link" to="/edit">
-            <Typography className="nav-element" style={underlineCurrentSite("/edit")} variant="h6" color="inherit" component="div">
+            <Typography
+              className="nav-element"
+              style={underlineCurrentSite("/edit")}
+              variant="h6"
+              color="inherit"
+              component="div"
+            >
               Edit
             </Typography>
           </Link>

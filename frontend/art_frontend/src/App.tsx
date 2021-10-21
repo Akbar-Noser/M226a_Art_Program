@@ -6,6 +6,7 @@ import Navbar from "./Navbar";
 import NavProvider from "./NavProvider";
 import CreateFile from "./CreateFile";
 import EditFile from "./EditFile";
+import Home from "./Home";
 
 function App() {
   return (
@@ -13,8 +14,9 @@ function App() {
       <BrowserRouter>
         <NavProvider>
           <Switch>
-            <Route exact path="/"><CreateFile/></Route>
+            <Route exact path="/create"><CreateFile/></Route>
             <Route exact path="/edit"><EditFile/></Route>
+            <Route exact path="/"><Home/></Route>
           </Switch>
         </NavProvider>
       </BrowserRouter>

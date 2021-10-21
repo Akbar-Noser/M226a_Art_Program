@@ -1,0 +1,46 @@
+svg.navigation-icon {
+    height: max-content;
+    width: max-content;
+    fill: #dcedffc9 ;
+    margin: auto;
+
+}
+
+
+.navigation-icon:first-child {
+    width: 20vmax;
+    height: 20%;
+    transform: scale(1.38);
+}
+
+.navigation-icon:first-child:hover {
+    transform: scale(1.5);
+}
+
+.navigation-icon:hover {
+    transform: scale(1.5);
+}
+
+.element-link {
+    margin-top: 20%;
+}
+
+div.element-paper {
+    background-color: transparent; 
+    border-radius: 20px;
+    display: inline-block;
+    margin: auto;
+}
+
+#edit-icon {
+    fill: #444554ff;
+    background-color: #dcedffc9;
+    border-radius: 20px;
+    transform: scale(1.05);
+    
+}
+
+#edit-icon:hover {
+    transform: scale(1.15);
+    
+}
