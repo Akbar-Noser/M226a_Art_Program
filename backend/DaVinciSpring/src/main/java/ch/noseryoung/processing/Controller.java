@@ -1,6 +1,9 @@
 package ch.noseryoung.processing;
 
+import ch.noseryoung.inputformat.CreatePictureInput;
+
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,11 +59,42 @@ public class Controller {
                     System.out.println(INPUT_STRIPES);
                     painter.createStripes(true, new Scanner(System.in).nextInt(), colors);
                 }
-                case 3 -> painter.createDiamondPattern(colors);
             }
         } while (true); //temporary condition for testing
 
 
+    }
+
+
+    public File createDiamondPicture(CreatePictureInput input) throws IOException {
+        File file = null;
+        switch (input.getColorScheme()) {
+            case "analogous" -> {
+                for (Integer sideLength : input.getLayers()) {
+                    layout.useAnalogousColors(input.getAmountOfShades());
+                    file = painter.createDiamondPattern(colors, sideLength);
+                }
+            }
+            case "tetradic" -> {
+                for (Integer sideLength: input.getLayers()) {
+                    layout.useTetradicColors();
+                    file = painter.createDiamondPattern(colors, sideLength);
+                }
+            }
+            case "triadic" -> {
+                for (Integer sideLength: input.getLayers()) {
+                    layout.useTriadicColors();
+                    file = painter.createDiamondPattern(colors, sideLength);
+                }
+            }
+            case "complementary" -> {
+                for (Integer sideLength: input.getLayers()) {
+                    layout.useComplementaryColors();
+                    file = painter.createDiamondPattern(colors, sideLength);
+                }
+            }
+        }
+        return file;
     }
 
     public ColorCalculator getColourCalculator() {

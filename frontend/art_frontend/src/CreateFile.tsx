@@ -29,18 +29,38 @@ const TETRADIC_OPTION = "tetradic";
 const TRIADIC_OPTION = "triadic";
 const COMPLEMENTARY_OPTION = "complementary";
 
+export interface FormFields {
+  colorScheme: string;
+  amountOfShades: number;
+  layout:string;
+  evenSpacing:boolean;
+  stripeThickness:number;
+  layers:number[];
+}
+
 export default function CreateFile() {
   const { setCurrentPath } = useContext(NavContext);
   setCurrentPath("/create");
 
-  interface FormFields {}
+
+
+  const defaultFormValues = {
+    colorScheme: "",
+    amountOfShades: 0,
+    layout: "",
+    evenSpacing: false,
+    stripeThickness: 0,
+    layers: []
+  }
 
   const [layoutRenderOption, setLayoutRenderOption] = useState("");
   const [schemeRenderOption, setSchemeRenderOption] = useState("");
 
   return (
     <Container className="form" maxWidth="sm">
-      <Formik initialValues={{}} onSubmit={() => {}}>
+      <Formik initialValues={defaultFormValues} onSubmit={(values: FormFields, {setSubmitting}) => {
+        
+      }}>
         {({ isSubmitting }) => {
           return (
             <Form className="form-content">
@@ -210,7 +230,9 @@ function DiamondOptions() {
           setDiamondLayerAmount(parseInt(event.target.value))
         }
       />
-      <TableContainer sx={{maxHeight: "30vh", maxWidth: "80vw", margin: "auto"}}>
+      <TableContainer
+        sx={{ maxHeight: "30vh", maxWidth: "80vw", margin: "auto" }}
+      >
         <Table className="table" style={{ marginTop: "5%" }} stickyHeader>
           <TableHead>
             <TableRow>

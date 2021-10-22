@@ -18,7 +18,7 @@ public class Painter {
      * distribute them evenly across the canvas. For example
      * if there are 2 colors in the list, one hal fof the canvas
      * will be one color and half of it will be the other
-     *
+     * <p>
      * (Possible to create color gradients if enough colors exist)
      *
      * @param colors the list of colors available to the painter
@@ -44,9 +44,9 @@ public class Painter {
      * won't have the same color.
      *
      * @param evenSpaces decides if stripes will always maintain the same thickness
-     * @param weight describes the thickness of the stripes in pixels (absolute if evenSpaces is true, otherwise
-     *               it describes the minimum thickness)
-     * @param colors the list of colors available to the painter
+     * @param weight     describes the thickness of the stripes in pixels (absolute if evenSpaces is true, otherwise
+     *                   it describes the minimum thickness)
+     * @param colors     the list of colors available to the painter
      * @throws IOException checked exception from ImageIO.write()
      */
     public void createStripes(boolean evenSpaces, int weight, List<Color> colors) throws IOException {
@@ -68,27 +68,39 @@ public class Painter {
                     bi.setRGB(k, j, usedColor.getRGB());
                 }
             }
-            ImageIO.write(bi, "PNG", new File("C:\\Users\\pette_j7ckdwu\\IdeaProjects\\DaVinci\\Pictures\\" +
-                    DateTimeFormatter.ofPattern("yyyyMMddHHmmss").format(LocalDateTime.now()) + "_stripes_" +
-                    colors.size() + "_shades.png"));
+        } else {
+            for (int k = 0; k < ch.noseryoung.processing.Canvas.getCanvasX(); k++) {
+                if (weight == weightCounter) {
+                    weightCounter = 0;
+                    usedColor = colors.get(ThreadLocalRandom.current().nextInt(colors.size()));
+                }
+                weightCounter++;
+                for (int j = 0; j < ch.noseryoung.processing.Canvas.getCanvasY(); j++) {
+                    bi.setRGB(k, j, usedColor.getRGB());
+                }
+            }
         }
+
+        ImageIO.write(bi, "PNG", new File("C:\\Users\\pette_j7ckdwu\\IdeaProjects\\DaVinci\\Pictures\\" +
+                DateTimeFormatter.ofPattern("yyyyMMddHHmmss").format(LocalDateTime.now()) + "_stripes_" +
+                colors.size() + "_shades.png"));
     }
 
     /**
      * creates a pattern of diamonds, diamonds may be layered on top of each other
      * but the requirement is the full loop of all the inputs from the user, layering can't be
      * applied in a single round
-     *
+     * <p>
      * Diamond creation is multithreaded
      *
      * @param colors the list of colors available to the painter
      * @throws IOException checked exception from ImageIO.write()
      */
-    public void createDiamondPattern(List<Color> colors) throws IOException {
-        System.out.println("Enter side length: ");
+    public File createDiamondPattern(List<Color> colors, int sideLength) throws IOException {
+
         DiamondGeneratorThread startThread = new DiamondGeneratorThread(new Point(0, 0),
                 colors.get(ThreadLocalRandom.current().nextInt(colors.size())).getRGB(),
-                new Scanner(System.in).nextInt(), colors);
+                sideLength, colors);
         startThread.start();
         try {
             startThread.join();
@@ -101,9 +113,11 @@ public class Painter {
                 bi.setRGB(x, y, Controller.getCanvas().getCANVAS2D()[y][x]);
             }
         }
-        ImageIO.write(bi, "PNG", new File("C:\\Users\\pette_j7ckdwu\\IdeaProjects\\DaVinci\\Pictures\\" +
+        File writtenFile =new File("..\\temppictures\\" +
                 DateTimeFormatter.ofPattern("yyyyMMddHHmmss").format(LocalDateTime.now()) + "_diamond_" +
-                colors.size() + "_shades.png"));
+                colors.size() + "_shades.png");
+        ImageIO.write(bi, "PNG", writtenFile);
+        return writtenFile;
     }
 
 }
