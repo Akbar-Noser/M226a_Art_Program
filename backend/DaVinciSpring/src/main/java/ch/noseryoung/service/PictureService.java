@@ -20,6 +20,14 @@ public class PictureService {
     }
 
     public ByteArrayResource createRequestedPicture(CreatePictureInput createPictureInput) {
+        System.out.println("shades: " + createPictureInput.getAmountOfShades());
+        System.out.println("color scheme: " + createPictureInput.getColorScheme());
+        System.out.println("layout: " + createPictureInput.getLayout());
+        System.out.println("stripe thickness: " + createPictureInput.getStripeThickness());
+        System.out.println("even spacing: " + createPictureInput.isEvenSpacing());
+        for (int i = 0; i < createPictureInput.getLayers().length; i++) {
+            System.out.println("layer: " + createPictureInput.getLayers()[i]);
+        }
         try {
             File file = controller.createDiamondPicture(createPictureInput);
             ByteArrayResource resource = new ByteArrayResource(Files.readAllBytes(Paths.get(file.getPath())));

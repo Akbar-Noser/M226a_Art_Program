@@ -8,117 +8,63 @@ public class CreatePictureInput {
     private String layout;
     private boolean evenSpacing;
     private int stripeThickness;
-    private ArrayList<Integer> layers;
+    private int[] layers;
 
 
-    /**
-     * Scheme: Analogous
-     * Layout: Color Template
-     */
-    public CreatePictureInput(String colorScheme, int amountOfShades, String layout) {
-        this.colorScheme = colorScheme;
-        this.amountOfShades = amountOfShades;
-        this.layout = layout;
-    }
-    /**
-     * Scheme: Analogous
-     * Layout: Stripes
-     */
-    public CreatePictureInput(String colorScheme, int amountOfShades, String layout, boolean evenSpacing, int stripeThickness) {
+    public CreatePictureInput(String colorScheme, int amountOfShades, String layout, boolean evenSpacing, int stripeThickness, int[] layers) {
         this.colorScheme = colorScheme;
         this.amountOfShades = amountOfShades;
         this.layout = layout;
         this.evenSpacing = evenSpacing;
         this.stripeThickness = stripeThickness;
-    }
-
-    /**
-     * Scheme: Analogous
-     * Layout: Diamonds
-     */
-    public CreatePictureInput(String colorScheme, int amountOfShades, String layout, ArrayList<Integer> layers) {
-        this.colorScheme = colorScheme;
-        this.amountOfShades = amountOfShades;
-        this.layout = layout;
-        this.layers = layers;
-    }
-
-    /**
-     * Scheme: all except analogous
-     * Layout: Stripes
-     */
-    public CreatePictureInput(String colorScheme, String layout, boolean evenSpacing, int stripeThickness) {
-        this.colorScheme = colorScheme;
-        this.layout = layout;
-        this.evenSpacing = evenSpacing;
-        this.stripeThickness = stripeThickness;
-    }
-
-    /**
-     * Scheme: all except analogous
-     * Layout: Color Template
-     */
-    public CreatePictureInput(String colorScheme, String layout) {
-        this.colorScheme = colorScheme;
-        this.layout = layout;
-    }
-
-
-    /**
-     * Scheme: all except analogous
-     * Layout: Diamonds
-     */
-    public CreatePictureInput(String colorScheme, String layout, ArrayList<Integer> layers) {
-        this.colorScheme = colorScheme;
-        this.layout = layout;
         this.layers = layers;
     }
 
     public String getColorScheme() {
-        return colorScheme;
-    }
+    return colorScheme;
+}
 
-    public void setColorScheme(String colorScheme) {
-        this.colorScheme = colorScheme;
-    }
+public void setColorScheme(String colorScheme) {
+    this.colorScheme = colorScheme;
+}
 
-    public int getAmountOfShades() {
-        return amountOfShades;
-    }
+public int getAmountOfShades() {
+    return amountOfShades;
+}
 
-    public void setAmountOfShades(int amountOfShades) {
-        this.amountOfShades = amountOfShades;
-    }
+public void setAmountOfShades(int amountOfShades) {
+    this.amountOfShades = amountOfShades;
+}
 
-    public String getLayout() {
-        return layout;
-    }
+public String getLayout() {
+    return layout;
+}
 
-    public void setLayout(String layout) {
-        this.layout = layout;
-    }
+public void setLayout(String layout) {
+    this.layout = layout;
+}
 
-    public boolean isEvenSpacing() {
-        return evenSpacing;
-    }
+public boolean isEvenSpacing() {
+    return evenSpacing;
+}
 
-    public void setEvenSpacing(boolean evenSpacing) {
-        this.evenSpacing = evenSpacing;
-    }
+public void setEvenSpacing(boolean evenSpacing) {
+    this.evenSpacing = evenSpacing;
+}
 
-    public int getStripeThickness() {
-        return stripeThickness;
-    }
+public int getStripeThickness() {
+    return stripeThickness;
+}
 
-    public void setStripeThickness(int stripeThickness) {
-        this.stripeThickness = stripeThickness;
-    }
+public void setStripeThickness(int stripeThickness) {
+    this.stripeThickness = stripeThickness;
+}
 
-    public ArrayList<Integer> getLayers() {
-        return layers;
-    }
+public int[] getLayers() {
+    return layers;
+}
 
-    public void setLayers(ArrayList<Integer> layers) {
-        this.layers = layers;
-    }
+public void setLayers(int[] layers) {
+    this.layers = layers;
+}
 }

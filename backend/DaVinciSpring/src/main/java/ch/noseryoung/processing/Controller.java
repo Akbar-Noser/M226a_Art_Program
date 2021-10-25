@@ -54,7 +54,7 @@ public class Controller {
                     [2] Create Stripes
                     [3] Create Diamonds""");
             switch (new Scanner(System.in).nextInt()) {
-                case  1 -> painter.createColorTemplate(colors);
+                case 1 -> painter.createColorTemplate(colors);
                 case 2 -> {
                     System.out.println(INPUT_STRIPES);
                     painter.createStripes(true, new Scanner(System.in).nextInt(), colors);
@@ -67,31 +67,26 @@ public class Controller {
 
 
     public File createDiamondPicture(CreatePictureInput input) throws IOException {
+        colors.clear();
+        colors.add(colorCalculator.randomColor());
         File file = null;
         switch (input.getColorScheme()) {
             case "analogous" -> {
-                for (Integer sideLength : input.getLayers()) {
-                    layout.useAnalogousColors(input.getAmountOfShades());
-                    file = painter.createDiamondPattern(colors, sideLength);
-                }
+                layout.useAnalogousColors(input.getAmountOfShades());
+                file = painter.createDiamondPattern(colors, input.getLayers());
+
             }
             case "tetradic" -> {
-                for (Integer sideLength: input.getLayers()) {
                     layout.useTetradicColors();
-                    file = painter.createDiamondPattern(colors, sideLength);
-                }
+                    file = painter.createDiamondPattern(colors, input.getLayers());
             }
             case "triadic" -> {
-                for (Integer sideLength: input.getLayers()) {
                     layout.useTriadicColors();
-                    file = painter.createDiamondPattern(colors, sideLength);
-                }
+                    file = painter.createDiamondPattern(colors, input.getLayers());
             }
             case "complementary" -> {
-                for (Integer sideLength: input.getLayers()) {
                     layout.useComplementaryColors();
-                    file = painter.createDiamondPattern(colors, sideLength);
-                }
+                    file = painter.createDiamondPattern(colors, input.getLayers());
             }
         }
         return file;

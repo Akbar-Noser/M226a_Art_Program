@@ -96,16 +96,18 @@ public class Painter {
      * @param colors the list of colors available to the painter
      * @throws IOException checked exception from ImageIO.write()
      */
-    public File createDiamondPattern(List<Color> colors, int sideLength) throws IOException {
+    public File createDiamondPattern(List<Color> colors, int[] layers) throws IOException {
 
-        DiamondGeneratorThread startThread = new DiamondGeneratorThread(new Point(0, 0),
-                colors.get(ThreadLocalRandom.current().nextInt(colors.size())).getRGB(),
-                sideLength, colors);
-        startThread.start();
-        try {
-            startThread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        for (int sideLength : layers) {
+            DiamondGeneratorThread startThread = new DiamondGeneratorThread(new Point(0, 0),
+                    colors.get(ThreadLocalRandom.current().nextInt(colors.size())).getRGB(),
+                    sideLength, colors);
+            startThread.start();
+            try {
+                startThread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
         BufferedImage bi = new BufferedImage(ch.noseryoung.processing.Canvas.getCanvasX(), Canvas.getCanvasY(), BufferedImage.TYPE_INT_RGB);
         for (int y = 0; y < Controller.getCanvas().getCANVAS2D().length; y++) {
@@ -113,7 +115,8 @@ public class Painter {
                 bi.setRGB(x, y, Controller.getCanvas().getCANVAS2D()[y][x]);
             }
         }
-        File writtenFile =new File("..\\temppictures\\" +
+        System.out.println(System.getProperty("user.dir"));
+        File writtenFile =new File("./src/main/java/ch/noseryoung/temppictures/" +
                 DateTimeFormatter.ofPattern("yyyyMMddHHmmss").format(LocalDateTime.now()) + "_diamond_" +
                 colors.size() + "_shades.png");
         ImageIO.write(bi, "PNG", writtenFile);

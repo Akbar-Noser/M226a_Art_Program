@@ -10,11 +10,10 @@ import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+
+@CrossOrigin("http://localhost:3000")
 @RestController
 @RequestMapping("/create/")
 public class PictureWeb {
@@ -27,8 +26,8 @@ public class PictureWeb {
     }
 
 
-    @PostMapping("")
-    public ResponseEntity<Resource> createPicture(@RequestBody CreatePictureInput input) {
+    @GetMapping(value = "", produces = MediaType.IMAGE_PNG_VALUE)
+    public ResponseEntity<Resource> createPicture(@RequestParam CreatePictureInput input) {
         ByteArrayResource responseFile = pictureService.createRequestedPicture(input);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentDisposition(ContentDisposition
