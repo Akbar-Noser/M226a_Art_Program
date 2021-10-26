@@ -51,7 +51,7 @@ export default function CreateFile() {
     layout: "",
     evenSpacing: false,
     stripeThickness: 0,
-    layers: []
+    layers: [],
   };
 
   const [layoutRenderOption, setLayoutRenderOption] = useState("");
@@ -63,16 +63,16 @@ export default function CreateFile() {
         initialValues={defaultFormValues}
         onSubmit={(values: FormFields, { setSubmitting }) => {
           console.log(values);
-          let layers:number[] = [];
+          let layers: number[] = [];
           // eslint-disable-next-line array-callback-return
           layerNames.map((layerName) => {
-            console.log(layerName)
+            console.log(layerName);
             document.getElementsByName(layerName).forEach((layer) => {
-              let value = (layer as HTMLInputElement).value
-              console.log(layer)
-              console.log((layer as HTMLInputElement).value)
+              let value = (layer as HTMLInputElement).value;
+              console.log(layer);
+              console.log((layer as HTMLInputElement).value);
               layers.push(parseInt(value));
-          })
+            });
           });
           let picture = {
             colorScheme: values.colorScheme,
@@ -80,10 +80,21 @@ export default function CreateFile() {
             layout: values.layout,
             evenSpacing: values.evenSpacing,
             stripeThickness: values.stripeThickness,
-            layers: layers
-          }
-          console.log(picture)
-          CreatePictureService.createPicture(picture).then(response => alert(response)).catch((response) => alert(response));
+            layers: layers,
+          };
+          console.log(picture);
+          CreatePictureService.createPicture(picture)
+            .then((fileName) => CreatePictureService.getPicture(fileName.data))
+            .then((response) => {
+              console.log(response.data)
+              const url = window.URL.createObjectURL(new Blob([response.data], {type: "image/png"}));
+              const link = document.createElement('a');
+              link.href = url;
+              link.setAttribute('download', "MyImage.png");
+              document.body.appendChild(link);
+              link.click();
+            })
+            .catch((response) => console.log(response));
           setSubmitting(false);
         }}
       >
@@ -112,7 +123,7 @@ export default function CreateFile() {
                     value={TETRADIC_OPTION}
                     control={
                       <Radio
-                      value={TETRADIC_OPTION}
+                        value={TETRADIC_OPTION}
                         onClick={() => setSchemeRenderOption(TETRADIC_OPTION)}
                       />
                     }
@@ -122,7 +133,7 @@ export default function CreateFile() {
                     value={TRIADIC_OPTION}
                     control={
                       <Radio
-                      value={TRIADIC_OPTION}
+                        value={TRIADIC_OPTION}
                         onClick={() => setSchemeRenderOption(TRIADIC_OPTION)}
                       />
                     }
@@ -132,7 +143,7 @@ export default function CreateFile() {
                     value={COMPLEMENTARY_OPTION}
                     control={
                       <Radio
-                      value={COMPLEMENTARY_OPTION}
+                        value={COMPLEMENTARY_OPTION}
                         onClick={() =>
                           setSchemeRenderOption(COMPLEMENTARY_OPTION)
                         }
@@ -155,7 +166,7 @@ export default function CreateFile() {
                     value={TEMPLATE_OPTION}
                     control={
                       <Radio
-                      value={TEMPLATE_OPTION}
+                        value={TEMPLATE_OPTION}
                         onClick={() => setLayoutRenderOption(TEMPLATE_OPTION)}
                       />
                     }
@@ -165,7 +176,7 @@ export default function CreateFile() {
                     value={STRIPES_OPTION}
                     control={
                       <Radio
-                      value={STRIPES_OPTION}
+                        value={STRIPES_OPTION}
                         onClick={() => setLayoutRenderOption(STRIPES_OPTION)}
                       />
                     }
@@ -175,7 +186,7 @@ export default function CreateFile() {
                     value={DIAMOND_OPTION}
                     control={
                       <Radio
-                      value={DIAMOND_OPTION}
+                        value={DIAMOND_OPTION}
                         onClick={() => setLayoutRenderOption(DIAMOND_OPTION)}
                       />
                     }
@@ -205,21 +216,34 @@ export default function CreateFile() {
   );
 }
 
-function schemeConditionalRendering(option: string, handleChange: {
-  (e: React.ChangeEvent<any>): void;
-  <T = string | React.ChangeEvent<any>>(field: T): T extends React.ChangeEvent<any> ? void : (e: string | React.ChangeEvent<any>) => void;
-}) {
+function schemeConditionalRendering(
+  option: string,
+  handleChange: {
+    (e: React.ChangeEvent<any>): void;
+    <T = string | React.ChangeEvent<any>>(
+      field: T
+    ): T extends React.ChangeEvent<any>
+      ? void
+      : (e: string | React.ChangeEvent<any>) => void;
+  }
+) {
   if (option === ANALOGOUS_OPTION) {
     return <AnalogousRendering handleChange={handleChange} />;
   }
 }
 
-interface Change {handleChange:{
-  (e: React.ChangeEvent<any>): void;
-  <T = string | React.ChangeEvent<any>>(field: T): T extends React.ChangeEvent<any> ? void : (e: string | React.ChangeEvent<any>) => void;
-}}
+interface Change {
+  handleChange: {
+    (e: React.ChangeEvent<any>): void;
+    <T = string | React.ChangeEvent<any>>(
+      field: T
+    ): T extends React.ChangeEvent<any>
+      ? void
+      : (e: string | React.ChangeEvent<any>) => void;
+  };
+}
 
-function AnalogousRendering({handleChange} : Change) {
+function AnalogousRendering({ handleChange }: Change) {
   return (
     <TextField
       className="input-field"
@@ -231,26 +255,35 @@ function AnalogousRendering({handleChange} : Change) {
   );
 }
 
-function layoutConditionalRendering(option: string, handleChange:{
-  (e: React.ChangeEvent<any>): void;
-  <T = string | React.ChangeEvent<any>>(field: T): T extends React.ChangeEvent<any> ? void : (e: string | React.ChangeEvent<any>) => void;
-}) {
+function layoutConditionalRendering(
+  option: string,
+  handleChange: {
+    (e: React.ChangeEvent<any>): void;
+    <T = string | React.ChangeEvent<any>>(
+      field: T
+    ): T extends React.ChangeEvent<any>
+      ? void
+      : (e: string | React.ChangeEvent<any>) => void;
+  }
+) {
   if (option === DIAMOND_OPTION) {
     return <DiamondOptions handleChange={handleChange} />;
   }
   if (option === STRIPES_OPTION) {
-    return <StripeOptions handleChange={handleChange}/>;
+    return <StripeOptions handleChange={handleChange} />;
   }
 
   return <></>;
 }
 
-function StripeOptions({handleChange}: Change) {
+function StripeOptions({ handleChange }: Change) {
   return (
     <>
       <FormControlLabel
         className="input-field"
-        control={<Switch name="evenSpacing" onChange={handleChange} defaultChecked />}
+        control={
+          <Switch name="evenSpacing" onChange={handleChange} defaultChecked />
+        }
         label="Even Spacing"
       />
       <TextField
@@ -264,7 +297,7 @@ function StripeOptions({handleChange}: Change) {
   );
 }
 
-function DiamondOptions({handleChange}: Change) {
+function DiamondOptions({ handleChange }: Change) {
   const [diamondLayerAmount, setDiamondLayerAmount] = useState(0);
   return (
     <>
@@ -293,7 +326,9 @@ function DiamondOptions({handleChange}: Change) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {GenerateTableContent(diamondLayerAmount, handleChange).map((row) => row)}
+            {GenerateTableContent(diamondLayerAmount, handleChange).map(
+              (row) => row
+            )}
           </TableBody>
         </Table>
       </TableContainer>
@@ -301,12 +336,19 @@ function DiamondOptions({handleChange}: Change) {
   );
 }
 
-const GenerateTableContent = (amountOfLayers: number, handleChange:{
-  (e: React.ChangeEvent<any>): void;
-  <T = string | React.ChangeEvent<any>>(field: T): T extends React.ChangeEvent<any> ? void : (e: string | React.ChangeEvent<any>) => void;
-}) => {
+const GenerateTableContent = (
+  amountOfLayers: number,
+  handleChange: {
+    (e: React.ChangeEvent<any>): void;
+    <T = string | React.ChangeEvent<any>>(
+      field: T
+    ): T extends React.ChangeEvent<any>
+      ? void
+      : (e: string | React.ChangeEvent<any>) => void;
+  }
+) => {
   let tableContents: JSX.Element[] = [];
-  while(layerNames.length !== 0) {
+  while (layerNames.length !== 0) {
     layerNames.pop();
   }
   for (let index = 1; index <= amountOfLayers; index++) {
@@ -315,10 +357,17 @@ const GenerateTableContent = (amountOfLayers: number, handleChange:{
   return tableContents;
 };
 
-const TableRowLayer = (index: number, handleChange:{
-  (e: React.ChangeEvent<any>): void;
-  <T = string | React.ChangeEvent<any>>(field: T): T extends React.ChangeEvent<any> ? void : (e: string | React.ChangeEvent<any>) => void;
-}) => {
+const TableRowLayer = (
+  index: number,
+  handleChange: {
+    (e: React.ChangeEvent<any>): void;
+    <T = string | React.ChangeEvent<any>>(
+      field: T
+    ): T extends React.ChangeEvent<any>
+      ? void
+      : (e: string | React.ChangeEvent<any>) => void;
+  }
+) => {
   return (
     <TableRow>
       <TableCell className="table-cell" align="center">
@@ -336,8 +385,8 @@ const TableRowLayer = (index: number, handleChange:{
   );
 };
 
-const formLayerName = (index:number) => {
+const formLayerName = (index: number) => {
   let layerName = "layer".concat(String(index));
-  layerNames.push(layerName)
+  layerNames.push(layerName);
   return layerName;
-}
+};

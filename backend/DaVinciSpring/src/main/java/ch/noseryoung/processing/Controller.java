@@ -2,9 +2,13 @@ package ch.noseryoung.processing;
 
 import ch.noseryoung.inputformat.CreatePictureInput;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -67,29 +71,35 @@ public class Controller {
 
 
     public File createDiamondPicture(CreatePictureInput input) throws IOException {
-        colors.clear();
-        colors.add(colorCalculator.randomColor());
-        File file = null;
-        switch (input.getColorScheme()) {
-            case "analogous" -> {
-                layout.useAnalogousColors(input.getAmountOfShades());
-                file = painter.createDiamondPattern(colors, input.getLayers());
+        BufferedImage bi = new BufferedImage(ch.noseryoung.processing.Canvas.getCanvasX(), Canvas.getCanvasY(), BufferedImage.TYPE_INT_RGB);
+        for (int sideLength : input.getLayers()) {
+            colors.clear();
+            colors.add(colorCalculator.randomColor());
+            switch (input.getColorScheme()) {
+                case "analogous" -> {
+                    layout.useAnalogousColors(input.getAmountOfShades());
+                    bi = painter.createDiamondPattern(colors, bi, sideLength);
 
-            }
-            case "tetradic" -> {
+                }
+                case "tetradic" -> {
                     layout.useTetradicColors();
-                    file = painter.createDiamondPattern(colors, input.getLayers());
-            }
-            case "triadic" -> {
+                    bi = painter.createDiamondPattern(colors, bi, sideLength);
+                }
+                case "triadic" -> {
                     layout.useTriadicColors();
-                    file = painter.createDiamondPattern(colors, input.getLayers());
-            }
-            case "complementary" -> {
+                    bi = painter.createDiamondPattern(colors, bi, sideLength);
+                }
+                case "complementary" -> {
                     layout.useComplementaryColors();
-                    file = painter.createDiamondPattern(colors, input.getLayers());
+                    bi = painter.createDiamondPattern(colors, bi, sideLength);
+                }
             }
         }
-        return file;
+        File writtenFile = new File("./src/main/java/ch/noseryoung/temppictures/" +
+                DateTimeFormatter.ofPattern("yyyyMMddHHmmss").format(LocalDateTime.now()) + "_diamond_" +
+                colors.size() + "_shades.png");
+        ImageIO.write(bi, "PNG", writtenFile);
+        return writtenFile;
     }
 
     public ColorCalculator getColourCalculator() {

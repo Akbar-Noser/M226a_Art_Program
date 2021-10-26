@@ -19,7 +19,20 @@ public class PictureService {
         this.controller = new Controller();
     }
 
-    public ByteArrayResource createRequestedPicture(CreatePictureInput createPictureInput) {
+    public byte[] getRequestedPicture(String fileName) {
+        try {
+            File file = new File("./src/main/java/ch/noseryoung/temppictures/" + fileName);
+            byte[] resource = Files.readAllBytes(
+                    Paths.get(file.getPath()));
+            file.delete();
+            return resource;
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public String createRequestedPicture(CreatePictureInput createPictureInput) {
         System.out.println("shades: " + createPictureInput.getAmountOfShades());
         System.out.println("color scheme: " + createPictureInput.getColorScheme());
         System.out.println("layout: " + createPictureInput.getLayout());
@@ -30,9 +43,7 @@ public class PictureService {
         }
         try {
             File file = controller.createDiamondPicture(createPictureInput);
-            ByteArrayResource resource = new ByteArrayResource(Files.readAllBytes(Paths.get(file.getPath())));
-            file.delete();
-            return resource;
+            return file.getName();
         } catch (IOException e) {
             e.printStackTrace();
         }

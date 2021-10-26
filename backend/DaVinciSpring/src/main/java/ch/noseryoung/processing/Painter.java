@@ -96,31 +96,23 @@ public class Painter {
      * @param colors the list of colors available to the painter
      * @throws IOException checked exception from ImageIO.write()
      */
-    public File createDiamondPattern(List<Color> colors, int[] layers) throws IOException {
-
-        for (int sideLength : layers) {
-            DiamondGeneratorThread startThread = new DiamondGeneratorThread(new Point(0, 0),
-                    colors.get(ThreadLocalRandom.current().nextInt(colors.size())).getRGB(),
-                    sideLength, colors);
-            startThread.start();
-            try {
-                startThread.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+    public BufferedImage createDiamondPattern(List<Color> colors, BufferedImage bi, int sideLength) throws IOException {
+        DiamondGeneratorThread startThread = new DiamondGeneratorThread(new Point(0, 0),
+                colors.get(ThreadLocalRandom.current().nextInt(colors.size())).getRGB(),
+                sideLength, colors);
+        startThread.start();
+        try {
+            startThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-        BufferedImage bi = new BufferedImage(ch.noseryoung.processing.Canvas.getCanvasX(), Canvas.getCanvasY(), BufferedImage.TYPE_INT_RGB);
         for (int y = 0; y < Controller.getCanvas().getCANVAS2D().length; y++) {
             for (int x = 0; x < Controller.getCanvas().getCANVAS2D()[0].length; x++) {
                 bi.setRGB(x, y, Controller.getCanvas().getCANVAS2D()[y][x]);
             }
         }
         System.out.println(System.getProperty("user.dir"));
-        File writtenFile =new File("./src/main/java/ch/noseryoung/temppictures/" +
-                DateTimeFormatter.ofPattern("yyyyMMddHHmmss").format(LocalDateTime.now()) + "_diamond_" +
-                colors.size() + "_shades.png");
-        ImageIO.write(bi, "PNG", writtenFile);
-        return writtenFile;
+        return bi;
     }
 
 }

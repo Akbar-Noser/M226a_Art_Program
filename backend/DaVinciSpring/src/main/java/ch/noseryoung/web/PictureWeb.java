@@ -26,9 +26,9 @@ public class PictureWeb {
     }
 
 
-    @GetMapping(value = "", produces = MediaType.IMAGE_PNG_VALUE)
-    public ResponseEntity<Resource> createPicture(@RequestParam CreatePictureInput input) {
-        ByteArrayResource responseFile = pictureService.createRequestedPicture(input);
+    @GetMapping(value = "{fileName}", produces = MediaType.IMAGE_PNG_VALUE)
+    public ResponseEntity<byte[]> createPicture(@PathVariable String fileName) {
+        byte[] responseFile = pictureService.getRequestedPicture(fileName);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentDisposition(ContentDisposition
                 .builder("attachment")
@@ -37,8 +37,14 @@ public class PictureWeb {
         return ResponseEntity.ok()
                 .contentType(MediaType.IMAGE_PNG)
                 .headers(headers)
-                .contentLength(responseFile.contentLength())
+                .contentLength(responseFile.length)
                 .body(responseFile);
+    }
+
+    @PostMapping(value = "")
+    public ResponseEntity<String> createPicture(@RequestBody CreatePictureInput input) {
+        return ResponseEntity.ok().body(pictureService.createRequestedPicture(input));
+
     }
 
     public PictureService getPictureService() {
