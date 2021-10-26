@@ -42,9 +42,15 @@ public class PictureService {
             System.out.println("layer: " + createPictureInput.getLayers()[i]);
         }
         try {
-            File file = controller.createDiamondPicture(createPictureInput);
+            File file;
+            switch (createPictureInput.getLayout()) {
+                case "diamond" -> file = controller.createDiamondPicture(createPictureInput);
+                case "stripes" -> file = controller.createStripesPicture(createPictureInput);
+                case "template" -> file = controller.createTemplatePicture(createPictureInput);
+                default -> file = null;
+            }
             return file.getName();
-        } catch (IOException e) {
+        } catch (IOException | NullPointerException e) {
             e.printStackTrace();
         }
         return null;

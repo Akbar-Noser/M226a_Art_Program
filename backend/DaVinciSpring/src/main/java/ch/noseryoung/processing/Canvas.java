@@ -1,8 +1,8 @@
 package ch.noseryoung.processing;
 
 public class Canvas {
-    private static final int CANVAS_X = 3840;
-    private static final int CANVAS_Y = 2160;
+    private static final int CANVAS_X = 1920;
+    private static final int CANVAS_Y = 1080;
     private final int[][] CANVAS2D = new int[CANVAS_Y][CANVAS_X];
 
     public static int getCanvasX() {

@@ -71,35 +71,50 @@ public class Controller {
 
 
     public File createDiamondPicture(CreatePictureInput input) throws IOException {
-        BufferedImage bi = new BufferedImage(ch.noseryoung.processing.Canvas.getCanvasX(), Canvas.getCanvasY(), BufferedImage.TYPE_INT_RGB);
+        BufferedImage bi =  new BufferedImage(ch.noseryoung.processing.Canvas.getCanvasX(), ch.noseryoung.processing.Canvas.getCanvasY(), BufferedImage.TYPE_INT_RGB);
         for (int sideLength : input.getLayers()) {
-            colors.clear();
-            colors.add(colorCalculator.randomColor());
-            switch (input.getColorScheme()) {
-                case "analogous" -> {
-                    layout.useAnalogousColors(input.getAmountOfShades());
-                    bi = painter.createDiamondPattern(colors, bi, sideLength);
-
-                }
-                case "tetradic" -> {
-                    layout.useTetradicColors();
-                    bi = painter.createDiamondPattern(colors, bi, sideLength);
-                }
-                case "triadic" -> {
-                    layout.useTriadicColors();
-                    bi = painter.createDiamondPattern(colors, bi, sideLength);
-                }
-                case "complementary" -> {
-                    layout.useComplementaryColors();
-                    bi = painter.createDiamondPattern(colors, bi, sideLength);
-                }
-            }
+            useScheme(input);
+            bi = painter.createDiamondPattern(colors, bi, sideLength);
         }
         File writtenFile = new File("./src/main/java/ch/noseryoung/temppictures/" +
                 DateTimeFormatter.ofPattern("yyyyMMddHHmmss").format(LocalDateTime.now()) + "_diamond_" +
                 colors.size() + "_shades.png");
         ImageIO.write(bi, "PNG", writtenFile);
         return writtenFile;
+    }
+
+    public File createStripesPicture(CreatePictureInput input) throws IOException {
+        BufferedImage bi;
+        useScheme(input);
+        bi = painter.createStripes(input.isEvenSpacing(), input.getStripeThickness(), colors);
+        File writtenFile = new File("./src/main/java/ch/noseryoung/temppictures/" +
+                DateTimeFormatter.ofPattern("yyyyMMddHHmmss").format(LocalDateTime.now()) + "_diamond_" +
+                colors.size() + "_shades.png");
+        ImageIO.write(bi, "PNG", writtenFile);
+        return writtenFile;
+    }
+
+    public File createTemplatePicture(CreatePictureInput input) throws IOException {
+        BufferedImage bi;
+        useScheme(input);
+        bi = painter.createColorTemplate(colors);
+        File writtenFile = new File("./src/main/java/ch/noseryoung/temppictures/" +
+                DateTimeFormatter.ofPattern("yyyyMMddHHmmss").format(LocalDateTime.now()) + "_diamond_" +
+                colors.size() + "_shades.png");
+        ImageIO.write(bi, "PNG", writtenFile);
+        return writtenFile;
+    }
+
+    private void useScheme(CreatePictureInput input) {
+        colors.clear();
+        colors.add(colorCalculator.randomColor());
+        switch (input.getColorScheme()) {
+            case "analogous" -> layout.useAnalogousColors(input.getAmountOfShades());
+            case "tetradic" -> layout.useTetradicColors();
+            case "triadic" -> layout.useTriadicColors();
+            case "complementary" -> layout.useComplementaryColors();
+
+        }
     }
 
     public ColorCalculator getColourCalculator() {

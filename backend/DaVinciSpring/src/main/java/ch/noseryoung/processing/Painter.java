@@ -24,18 +24,28 @@ public class Painter {
      * @param colors the list of colors available to the painter
      * @throws IOException checked exception from ImageIO.write()
      */
-    public void createColorTemplate(List<Color> colors) throws IOException {
-        BufferedImage bi = new BufferedImage(ch.noseryoung.processing.Canvas.getCanvasX(), ch.noseryoung.processing.Canvas.getCanvasY(), BufferedImage.TYPE_INT_RGB);
-        for (int i = 1; i <= colors.size(); i++) {
-            for (int k = 0; k < ch.noseryoung.processing.Canvas.getCanvasX() / colors.size(); k++) {
-                for (int j = 0; j < ch.noseryoung.processing.Canvas.getCanvasY(); j++) {
-                    bi.setRGB(k + ch.noseryoung.processing.Canvas.getCanvasX() / colors.size() * (i - 1), j, colors.get(i - 1).getRGB());
+    public BufferedImage createColorTemplate(List<Color> colors) throws IOException {
+        int colorLength =  ((float) ch.noseryoung.processing.Canvas.getCanvasX() / colors.size()) % 1.0 != 0.0 ?
+                (ch.noseryoung.processing.Canvas.getCanvasX() / colors.size()) + 1 :
+                (ch.noseryoung.processing.Canvas.getCanvasX() / colors.size());
+        System.out.println(colorLength);
+        BufferedImage bi = new BufferedImage(ch.noseryoung.processing.Canvas.getCanvasX(),
+                ch.noseryoung.processing.Canvas.getCanvasY(), BufferedImage.TYPE_INT_RGB);
+            for (int i = 0; i < colors.size(); i++) {
+                for (int k = 0; k < colorLength; k++) {
+                    try {
+                        for (int j = 0; j < ch.noseryoung.processing.Canvas.getCanvasY(); j++) {
+                            bi.setRGB(k + colorLength * i, j, colors.get(i).getRGB());
+                        }
+                    }catch (ArrayIndexOutOfBoundsException e) {
+                        // if x length is not dividable by amount of colors the loop will throw this
+                        // error as the loop is configured to "overfill" the canvas, error occurs and loop will break
+                        break;
+                    }
                 }
             }
-        }
-        ImageIO.write(bi, "PNG", new File("C:\\Users\\pette_j7ckdwu\\IdeaProjects\\DaVinci\\Pictures\\" +
-                DateTimeFormatter.ofPattern("yyyyMMddHHmmss").format(LocalDateTime.now()) + "_ColourTemplate_" +
-                colors.size() + "_shades.png"));
+
+       return bi;
     }
 
     /**
@@ -49,7 +59,7 @@ public class Painter {
      * @param colors     the list of colors available to the painter
      * @throws IOException checked exception from ImageIO.write()
      */
-    public void createStripes(boolean evenSpaces, int weight, List<Color> colors) throws IOException {
+    public BufferedImage createStripes(boolean evenSpaces, int weight, List<Color> colors) throws IOException {
         Color usedColor = colors.get(ThreadLocalRandom.current().nextInt(colors.size()));
         int weightCounter = 0;
         BufferedImage bi = new BufferedImage(ch.noseryoung.processing.Canvas.getCanvasX(), ch.noseryoung.processing.Canvas.getCanvasY(), BufferedImage.TYPE_INT_RGB);
@@ -81,9 +91,7 @@ public class Painter {
             }
         }
 
-        ImageIO.write(bi, "PNG", new File("C:\\Users\\pette_j7ckdwu\\IdeaProjects\\DaVinci\\Pictures\\" +
-                DateTimeFormatter.ofPattern("yyyyMMddHHmmss").format(LocalDateTime.now()) + "_stripes_" +
-                colors.size() + "_shades.png"));
+        return bi;
     }
 
     /**
