@@ -87,7 +87,7 @@ export default function CreateFile() {
             .then((fileName) => CreatePictureService.getPicture(fileName.data))
             .then((response) => {
               console.log(response.data)
-              const url = window.URL.createObjectURL(new Blob([response.data], {type: "image/png"}));
+              const url = window.URL.createObjectURL(new Blob([response.data], {type: "image/png"}));i
               const link = document.createElement('a');
               link.href = url;
               link.setAttribute('download', "MyImage.png");
