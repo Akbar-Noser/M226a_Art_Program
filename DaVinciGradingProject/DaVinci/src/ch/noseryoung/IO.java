@@ -57,4 +57,13 @@ public class IO {
                 [4] Complementary Colors""");
         return sc.nextInt();
     }
+
+    public int getDiamondSideLength() throws InputMismatchException {
+        System.out.println("Enter side length: ");
+        return sc.nextInt();
+    }
+
+    public Scanner getSc() {
+        return sc;
+    }
 }

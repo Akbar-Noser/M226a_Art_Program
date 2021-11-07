@@ -33,7 +33,7 @@ public class Painter {
                 }
             }
         }
-        ImageIO.write(bi, "PNG", new File("C:\\Users\\pette_j7ckdwu\\IdeaProjects\\DaVinci\\Pictures\\" +
+        ImageIO.write(bi, "PNG", new File(".\\Pictures\\" +
                 DateTimeFormatter.ofPattern("yyyyMMddHHmmss").format(LocalDateTime.now()) + "_ColourTemplate_" +
                 colors.size() + "_shades.png"));
     }
@@ -68,7 +68,7 @@ public class Painter {
                     bi.setRGB(k, j, usedColor.getRGB());
                 }
             }
-            ImageIO.write(bi, "PNG", new File("C:\\Users\\pette_j7ckdwu\\IdeaProjects\\DaVinci\\Pictures\\" +
+            ImageIO.write(bi, "PNG", new File(".\\Pictures\\" +
                     DateTimeFormatter.ofPattern("yyyyMMddHHmmss").format(LocalDateTime.now()) + "_stripes_" +
                     colors.size() + "_shades.png"));
         }
@@ -84,11 +84,10 @@ public class Painter {
      * @param colors the list of colors available to the painter
      * @throws IOException checked exception from ImageIO.write()
      */
-    public void createDiamondPattern(List<Color> colors) throws IOException {
-        System.out.println("Enter side length: ");
+    public void createDiamondPattern(List<Color> colors, int startingSideLength) throws IOException {
         DiamondGeneratorThread startThread = new DiamondGeneratorThread(new Point(0, 0),
                 colors.get(ThreadLocalRandom.current().nextInt(colors.size())).getRGB(),
-                new Scanner(System.in).nextInt(), colors);
+                startingSideLength, colors);
         startThread.start();
         try {
             startThread.join();
@@ -101,7 +100,7 @@ public class Painter {
                 bi.setRGB(x, y, Controller.getCanvas().getCANVAS2D()[y][x]);
             }
         }
-        ImageIO.write(bi, "PNG", new File("C:\\Users\\pette_j7ckdwu\\IdeaProjects\\DaVinci\\Pictures\\" +
+        ImageIO.write(bi, "PNG", new File(".\\Pictures\\" +
                 DateTimeFormatter.ofPattern("yyyyMMddHHmmss").format(LocalDateTime.now()) + "_diamond_" +
                 colors.size() + "_shades.png"));
     }

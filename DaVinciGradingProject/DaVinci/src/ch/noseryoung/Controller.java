@@ -33,7 +33,7 @@ public class Controller {
         while (answer != 0){
             colors.clear();
             colors.add(colorCalculator.randomColor());
-            switch (answer = exceptionHandlerIO.handleLayoutInput(1, 4)) {
+            switch (answer = exceptionHandlerIO.handleLayoutInput(0, 4)) {
                 case 1 -> layout.useAnalogousColors(exceptionHandlerIO.handleAmountOfShadesInput());
                 case 2 -> layout.useTetradicColors();
                 case 3 -> layout.useTriadicColors();
@@ -41,10 +41,10 @@ public class Controller {
             }
             if (answer == 0)
                 continue;
-            switch (answer = exceptionHandlerIO.handlePicturePatternInput(1, 3)) {
+            switch (answer = exceptionHandlerIO.handlePicturePatternInput(0, 3)) {
                 case 1 -> painter.createColorTemplate(colors);
                 case 2 -> painter.createStripes(true, exceptionHandlerIO.handleStripeThicknessInput(), colors);
-                case 3 -> painter.createDiamondPattern(colors);
+                case 3 -> painter.createDiamondPattern(colors, exceptionHandlerIO.handleDiamondSideLengthInput());
             }
         }
 

@@ -1,6 +1,7 @@
 package ch.noseryoung;
 
 import java.util.InputMismatchException;
+import java.util.Scanner;
 
 
 /**
@@ -31,6 +32,7 @@ public class ExceptionHandlerIO {
                     io.exceptionChooseAnOption();
                 }
             } catch (InputMismatchException e) {
+                consumeNewLineBuffer();
                 io.exceptionChooseAnOption();
             }
         }
@@ -51,6 +53,7 @@ public class ExceptionHandlerIO {
                     io.exceptionSmallerThanMin(1);
                 }
             } catch (InputMismatchException e) {
+                consumeNewLineBuffer();
                 io.exceptionNotAnInt();
             }
         }
@@ -71,6 +74,7 @@ public class ExceptionHandlerIO {
                     io.exceptionSmallerThanMin(1);
                 }
             } catch (InputMismatchException e) {
+                consumeNewLineBuffer();
                 io.exceptionNotAnInt();
             }
         }
@@ -93,9 +97,38 @@ public class ExceptionHandlerIO {
                     io.exceptionChooseAnOption();
                 }
             } catch (InputMismatchException e) {
+                consumeNewLineBuffer();
                 io.exceptionChooseAnOption();
             }
         }
         return answer;
+    }
+
+    /**
+     * Checks that user input is a number and larger than 0
+     *
+     * @return user input (positive integer)
+     */
+    public int handleDiamondSideLengthInput() {
+        int answer = 0;
+        while (answer < 1) { //side length can't be 0 or less, the picture would end up empty
+            try {
+                answer = io.getDiamondSideLength();
+                if (answer < 1) {
+                    io.exceptionSmallerThanMin(1);
+                }
+            } catch (InputMismatchException e) {
+                consumeNewLineBuffer();
+                io.exceptionNotAnInt();
+            }
+        }
+        return answer;
+    }
+
+    /**
+     * consumes new line buffer of input stream linked to local io
+     */
+    private void consumeNewLineBuffer() {
+        io.getSc().nextLine();
     }
 }
