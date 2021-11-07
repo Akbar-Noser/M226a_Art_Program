@@ -1,0 +1,18 @@
+table.table {
+    border: solid 1px rgba(23, 33, 33, 0.466); 
+    max-height: 20%;
+}
+
+th.table-title {
+    background-color: rgba(118, 146, 146, 1);
+    width: 50%;
+    border: solid 1px rgba(23, 33, 33, 0.466); 
+    font-weight: bold;
+}
+
+td.table-cell {
+    background-color:  #dcedffc9;
+    width: 50%;
+    border: solid 1px rgba(23, 33, 33, 0.466); 
+}
+
